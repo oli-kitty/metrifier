@@ -12,7 +12,7 @@ object ProjectPlugin extends AutoPlugin {
   object autoImport {
 
     lazy val V = new {
-      lazy val freesRPC = "0.14.1"
+      lazy val mu       = "0.18.0"
       lazy val http4s   = "0.18.15"
       lazy val config   = "1.3.3"
       lazy val logback  = "1.2.3"
@@ -41,9 +41,10 @@ object ProjectPlugin extends AutoPlugin {
     )
 
     lazy val rpcDependencies: Seq[ModuleID] = Seq(
-      "io.frees" %% "frees-rpc-server"      % V.freesRPC,
-      "io.frees" %% "frees-rpc-client-core" % V.freesRPC,
-      "io.frees" %% "frees-rpc-config"      % V.freesRPC
+      "io.higherkindness" %% "mu-rpc-channel" % V.mu,
+      "io.higherkindness" %% "mu-rpc-server"  % V.mu,
+      "io.higherkindness" %% "mu-config"      % V.mu,
+      "io.higherkindness" %% "mu-rpc-monix"   % V.mu
     )
 
     def n(suffix: String) = s"metrifier-$suffix"

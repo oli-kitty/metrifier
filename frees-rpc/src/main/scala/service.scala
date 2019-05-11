@@ -1,7 +1,7 @@
 package metrifier
 package rpc
 
-import freestyle.rpc.protocol._
+import higherkindness.mu.rpc.protocol._
 import metrifier.shared.model._
 
 object protocols {

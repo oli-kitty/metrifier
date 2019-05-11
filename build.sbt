@@ -2,6 +2,7 @@ lazy val shared = project
   .in(file("shared"))
   .settings(moduleName := "shared")
   .settings(name := n(moduleName.value))
+  .settings(libraryDependencies ++= rpcDependencies)
 
 lazy val http = project
   .in(file("http"))

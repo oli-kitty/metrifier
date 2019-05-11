@@ -3,15 +3,12 @@ package rpc
 
 import cats.Applicative
 import cats.effect._
-import cats.syntax.applicative._
-import freestyle.rpc._
-import freestyle.rpc.client.config._
-import freestyle.rpc.protocol.Empty
-import freestyle.rpc.server._
+import higherkindness.mu.rpc._
+import higherkindness.mu.rpc.config.channel.ConfigForAddress
+import higherkindness.mu.rpc.protocol.Empty
 import metrifier.rpc.protocols._
 import metrifier.shared.model._
 import metrifier.shared.services
-
 
 package object server {
 
@@ -23,6 +20,7 @@ package object server {
   }
 
   abstract class HandlerImpl[F[_]: Applicative] {
+    import cats.syntax.applicative._
 
     def listPersons(b: Empty.type): F[PersonList] =
       services.listPersons.pure
@@ -43,29 +41,5 @@ package object server {
 
   trait CommonImplicits extends PersonServiceRuntime with ServerConf
 
-  object proto {
-
-    trait ProtoImplicits extends CommonImplicits {
-
-      implicit private val personServicePBHandler: RPCProtoHandler[IO] = new RPCProtoHandler[IO]
-
-      implicit val grpcConfigsProto: List[GrpcConfig] = List(AddService(PersonServicePB.bindService[IO]))
-
-    }
-
-    object implicits extends ProtoImplicits
-  }
-
-  object avro {
-
-    trait AvroImplicits extends CommonImplicits {
-
-      implicit private val personServiceAvroHandler: RPCAvroHandler[IO] = new RPCAvroHandler[IO]
-
-      implicit val grpcConfigsAvro: List[GrpcConfig] = List(AddService(PersonServiceAvro.bindService[IO]))
-    }
-
-    object implicits extends AvroImplicits
-  }
-
+  object implicits extends CommonImplicits
 }
